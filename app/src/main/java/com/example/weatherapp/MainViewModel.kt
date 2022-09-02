@@ -25,7 +25,7 @@ class MainViewModel: ViewModel(){
     init {
     }
 
-    private fun fetchCurrentLocationWeater(latitude: String, longitude: String, API_KEY: String) {
+    fun fetchCurrentLocationWeater(latitude: String, longitude: String, API_KEY: String) {
         _pbLoading.value = true
        // binding.pbLoading.visibility = View.VISIBLE
         ApiUtilities.getApiInterface()?.getCurrentWeatherData(latitude, longitude, API_KEY)
@@ -41,7 +41,7 @@ class MainViewModel: ViewModel(){
             })
     }
 
-    private fun getCityWeather(cityName: String, API_KEY: String) {
+    fun getCityWeather(cityName: String, API_KEY: String) {
         // binding.pbLoading.visibility= View.VISIBLE
         ApiUtilities.getApiInterface()?.getCityWeatherData(cityName, API_KEY)
             ?.enqueue(object : Callback<ModelClass> {
