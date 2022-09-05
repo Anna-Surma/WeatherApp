@@ -10,14 +10,18 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
+import android.view.WindowManager
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-import com.example.weatherapp.POJO.ModelClass
 import com.example.weatherapp.api.Constants
 import com.example.weatherapp.api.Constants.PERMISSION_REQUEST_ACCESS_LOCATION
 import com.example.weatherapp.databinding.ActivityMainBinding
+import com.example.weatherapp.model.ModelClass
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 
@@ -33,6 +37,27 @@ class MainActivity : AppCompatActivity(){
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+
+        getCurrentLocation()
+
+        binding.mainViewModel = viewModel
+        binding.lifecycleOwner = this
+
+        binding.etGetCityName.setOnEditorActionListener({_, actionId, _ ->
+            if(actionId== EditorInfo.IME_ACTION_SEARCH)
+            {
+                viewModel.getCityWeather(binding.etGetCityName.text.toString(), Constants.API_KEY)
+                val view=this.currentFocus
+                if(view!=null)
+                {
+                    val imm: InputMethodManager =getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.hideSoftInputFromWindow(view.windowToken,0)
+                    binding.etGetCityName.clearFocus()
+                }
+                true
+            }
+            else false
+        })
 
         viewModel.weatherCurLoc.observe(this) {
             if (it != null) {
@@ -90,9 +115,9 @@ class MainActivity : AppCompatActivity(){
                 fusedLocationProviderClient.lastLocation.addOnCompleteListener(this) { task ->
                     val location: Location? = task.result
                     if (location == null) {
-                        Toast.makeText(this, "Null Recieved", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Null Received", Toast.LENGTH_SHORT).show()
                     } else {
-                        viewModel.fetchCurrentLocationWeater(location.latitude.toString(),
+                        viewModel.fetchCurrentLocationWeather(location.latitude.toString(),
                             location.longitude.toString(), Constants.API_KEY)
                     }
                 }
@@ -123,6 +148,194 @@ class MainActivity : AppCompatActivity(){
         }
     }
 
+    private fun updateUI(id: Int) {
+        when (id) {
+            //thunderstorm
+            in 200..232 -> {
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+                window.statusBarColor =
+                    ContextCompat.getColor(applicationContext, R.color.thunderstorm)
+                binding.rlToolbar.setBackgroundColor(
+                    ContextCompat.getColor(
+                        applicationContext,
+                        R.color.thunderstorm
+                    )
+                )
+                binding.rlSubLayout.background = ContextCompat.getDrawable(
+                    this@MainActivity,
+                    R.drawable.thunderstrom_bg
+                )
+                binding.llMainBgBelow.background = ContextCompat.getDrawable(
+                    this@MainActivity,
+                    R.drawable.thunderstrom_bg
+                )
+                binding.llMainBgAbove.background = ContextCompat.getDrawable(
+                    this@MainActivity,
+                    R.drawable.thunderstrom_bg
+                )
+                binding.ivWeatherBg.setImageResource(R.drawable.thunderstrom_bg)
+                binding.ivWeatherIcon.setImageResource(R.drawable.thunderstrom)
+            }
+            //drizzle
+            in 300..321 -> {
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+                window.statusBarColor = ContextCompat.getColor(applicationContext, R.color.drizzle)
+                binding.rlToolbar.setBackgroundColor(
+                    ContextCompat.getColor(
+                        applicationContext,
+                        R.color.drizzle
+                    )
+                )
+                binding.rlSubLayout.background = ContextCompat.getDrawable(
+                    this@MainActivity,
+                    R.drawable.drizzle_bg
+                )
+                binding.llMainBgBelow.background = ContextCompat.getDrawable(
+                    this@MainActivity,
+                    R.drawable.drizzle_bg
+                )
+                binding.llMainBgAbove.background = ContextCompat.getDrawable(
+                    this@MainActivity,
+                    R.drawable.drizzle_bg
+                )
+                binding.ivWeatherBg.setImageResource(R.drawable.drizzle_bg)
+                binding.ivWeatherIcon.setImageResource(R.drawable.drizzle)
+            }
+            //rainy
+            in 500..531 -> {
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+                window.statusBarColor = ContextCompat.getColor(applicationContext, R.color.rain)
+                binding.rlToolbar.setBackgroundColor(
+                    ContextCompat.getColor(
+                        applicationContext,
+                        R.color.rain
+                    )
+                )
+                binding.rlSubLayout.background = ContextCompat.getDrawable(
+                    this@MainActivity,
+                    R.drawable.rainy_bg
+                )
+                binding.llMainBgBelow.background = ContextCompat.getDrawable(
+                    this@MainActivity,
+                    R.drawable.rainy_bg
+                )
+                binding.llMainBgAbove.background = ContextCompat.getDrawable(
+                    this@MainActivity,
+                    R.drawable.rainy_bg
+                )
+                binding.ivWeatherBg.setImageResource(R.drawable.rainy_bg)
+                binding.ivWeatherIcon.setImageResource(R.drawable.rain)
+            }
+            //snow
+            in 600..620 -> {
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+                window.statusBarColor = ContextCompat.getColor(applicationContext, R.color.snow)
+                binding.rlToolbar.setBackgroundColor(
+                    ContextCompat.getColor(
+                        applicationContext,
+                        R.color.snow
+                    )
+                )
+                binding.rlSubLayout.background = ContextCompat.getDrawable(
+                    this@MainActivity,
+                    R.drawable.snow_bg
+                )
+                binding.llMainBgBelow.background = ContextCompat.getDrawable(
+                    this@MainActivity,
+                    R.drawable.snow_bg
+                )
+                binding.llMainBgAbove.background = ContextCompat.getDrawable(
+                    this@MainActivity,
+                    R.drawable.snow_bg
+                )
+                binding.ivWeatherBg.setImageResource(R.drawable.snow_bg)
+                binding.ivWeatherIcon.setImageResource(R.drawable.snow)
+            }
+            //mist
+            in 701..781 -> {
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+                window.statusBarColor =
+                    ContextCompat.getColor(applicationContext, R.color.atmosphere)
+                binding.rlToolbar.setBackgroundColor(
+                    ContextCompat.getColor(
+                        applicationContext,
+                        R.color.atmosphere
+                    )
+                )
+                binding.rlSubLayout.background = ContextCompat.getDrawable(
+                    this@MainActivity,
+                    R.drawable.mist_bg
+                )
+                binding.llMainBgBelow.background = ContextCompat.getDrawable(
+                    this@MainActivity,
+                    R.drawable.mist_bg
+                )
+                binding.llMainBgAbove.background = ContextCompat.getDrawable(
+                    this@MainActivity,
+                    R.drawable.mist_bg
+                )
+                binding.ivWeatherBg.setImageResource(R.drawable.mist_bg)
+                binding.ivWeatherIcon.setImageResource(R.drawable.mist)
+            }
+            //clear
+            800 -> {
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+                window.statusBarColor = ContextCompat.getColor(applicationContext, R.color.clear)
+                binding.rlToolbar.setBackgroundColor(
+                    ContextCompat.getColor(
+                        applicationContext,
+                        R.color.clear
+                    )
+                )
+                binding.rlSubLayout.background = ContextCompat.getDrawable(
+                    this@MainActivity,
+                    R.drawable.clear_bg
+                )
+                binding.llMainBgBelow.background = ContextCompat.getDrawable(
+                    this@MainActivity,
+                    R.drawable.clear_bg
+                )
+                binding.llMainBgAbove.background = ContextCompat.getDrawable(
+                    this@MainActivity,
+                    R.drawable.clear_bg
+                )
+                binding.ivWeatherBg.setImageResource(R.drawable.clear_bg)
+                binding.ivWeatherIcon.setImageResource(R.drawable.clear)
+            }
+            //clouds
+            else -> {
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+                window.statusBarColor = ContextCompat.getColor(applicationContext, R.color.clouds)
+                binding.rlToolbar.setBackgroundColor(
+                    ContextCompat.getColor(
+                        applicationContext,
+                        R.color.clouds
+                    )
+                )
+                binding.rlSubLayout.background = ContextCompat.getDrawable(
+                    this@MainActivity,
+                    R.drawable.clouds_bg
+                )
+                binding.llMainBgBelow.background = ContextCompat.getDrawable(
+                    this@MainActivity,
+                    R.drawable.clouds_bg
+                )
+                binding.llMainBgAbove.background = ContextCompat.getDrawable(
+                    this@MainActivity,
+                    R.drawable.clouds_bg
+                )
+                binding.ivWeatherBg.setImageResource(R.drawable.clouds_bg)
+                binding.ivWeatherIcon.setImageResource(R.drawable.clouds)
+            }
+        }
+
+        binding.pbLoading.visibility = View.GONE
+        binding.rlMainLayout.visibility = View.VISIBLE
+    }
+
     private fun setDataOnViews(body: ModelClass?) {
+        viewModel.getCurrentDate(body)
+        binding.etGetCityName.setText(body!!.name)
+        updateUI(body.weather[0].id)
     }
 }

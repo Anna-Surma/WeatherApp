@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="mainViewModel"
+            type="com.example.weatherapp.MainViewModel" />
+    </data>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -13,6 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:elevation="2dp"
             android:visibility="gone">
         </ProgressBar>
 
@@ -77,7 +84,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/snow_bg">
+                        tools:src="@drawable/snow_bg">
                     </ImageView>
 
                     <LinearLayout
@@ -94,7 +101,7 @@
                             android:fontFamily="@font/google_sans_medium"
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_large"
-                            android:text="@string/demo_date">
+                            android:text="@{mainViewModel.currentDate}">
                         </TextView>
 
                         <LinearLayout
@@ -110,7 +117,8 @@
                                 android:layout_weight="2"
                                 android:fontFamily="@font/google_sans_medium"
                                 android:textColor="@color/white"
-                                android:text="@string/day"
+                                tools:text="@string/day"
+                                android:text="@{@string/day_max_temp(mainViewModel.dayMaxTemp)}"
                                 android:textSize="@dimen/text_large">
                             </TextView>
 
@@ -121,19 +129,10 @@
                                 android:layout_weight="1"
                                 android:fontFamily="@font/google_sans_medium"
                                 android:textColor="@color/white"
-                                android:text="@string/day"
+                                tools:text="@string/day"
+                                android:text="@{@string/day_min_temp(mainViewModel.dayMinTemp)}"
                                 android:textSize="@dimen/text_large">
                             </TextView>
-
-                            <Button
-                                android:id="@+id/pdfButton"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/about_app"
-                                android:padding="@dimen/padding_large"
-                                android:textStyle="bold"
-                                android:layout_marginEnd="20dp">
-                            </Button>
 
                         </LinearLayout>
 
@@ -150,7 +149,8 @@
                                 android:layout_weight="1"
                                 android:fontFamily="@font/google_sans_medium"
                                 android:textColor="@color/white"
-                                android:text="@string/main_temp"
+                                tools:text="@string/main_temp"
+                                android:text="@{@string/degrees(mainViewModel.temp)}"
                                 android:textSize="@dimen/test_super_large">
                             </TextView>
 
@@ -178,7 +178,8 @@
                                 android:layout_weight="1"
                                 android:fontFamily="@font/google_sans_medium"
                                 android:textColor="@color/white"
-                                android:text="@string/feels_alike"
+                                tools:text="@string/feels_alike"
+                                android:text="@{@string/feels_like(mainViewModel.feelsLike)}"
                                 android:textSize="@dimen/text_large">
                             </TextView>
 
@@ -189,7 +190,8 @@
                                 android:layout_weight="3"
                                 android:fontFamily="@font/google_sans_medium"
                                 android:textColor="@color/white"
-                                android:text="@string/weather_type"
+                                tools:text="@string/weather_type"
+                                android:text="@{mainViewModel.weatherType}"
                                 android:textSize="@dimen/text_large">
                             </TextView>
 
@@ -222,7 +224,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@drawable/snow_bg"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:baselineAligned="false">
 
                             <RelativeLayout
                                 android:id="@+id/rl_pressure_wrapper"
@@ -251,9 +254,10 @@
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/google_sans_medium"
                                         android:gravity="center"
-                                        android:text="@string/deflaut_numbers"
+                                        android:text="@{mainViewModel.pressure}"
                                         android:textColor="@color/white"
-                                        android:textSize="@dimen/text_x_large">
+                                        android:textSize="@dimen/text_x_large"
+                                        tools:text="@string/default_numbers">
                                     </TextView>
 
                                     <TextView
@@ -299,7 +303,8 @@
                                         android:textSize="@dimen/text_x_large"
                                         android:gravity="center"
                                         android:textColor="@color/white"
-                                        android:text="@string/deflaut_numbers">
+                                        tools:text="@string/default_numbers"
+                                        android:text="@{mainViewModel.humidity}">
                                     </TextView>
 
                                     <TextView
@@ -333,7 +338,7 @@
                                         android:layout_width="25dp"
                                         android:layout_height="25dp"
                                         android:layout_gravity="center_horizontal"
-                                        android:src="@drawable/windspeed">
+                                        android:src="@drawable/wind_speed">
                                     </ImageView>
 
                                     <TextView
@@ -342,7 +347,8 @@
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/google_sans_medium"
                                         android:gravity="center"
-                                        android:text="@string/deflaut_numbers"
+                                        tools:text="@string/default_numbers"
+                                        android:text="@{mainViewModel.windSpeed}"
                                         android:textColor="@color/white"
                                         android:textSize="@dimen/text_x_large">
                                     </TextView>
@@ -398,7 +404,8 @@
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/google_sans_medium"
                                         android:gravity="center"
-                                        android:text="@string/deflaut_numbers"
+                                        tools:text="@string/default_numbers"
+                                        android:text="@{mainViewModel.sunrise}"
                                         android:textColor="@color/white"
                                         android:textSize="@dimen/text_x_large">
                                     </TextView>
@@ -444,7 +451,8 @@
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/google_sans_medium"
                                         android:gravity="center"
-                                        android:text="@string/deflaut_numbers"
+                                        tools:text="@string/default_numbers"
+                                        android:text="@{mainViewModel.sunset}"
                                         android:textColor="@color/white"
                                         android:textSize="@dimen/text_x_large">
                                     </TextView>
@@ -464,11 +472,11 @@
                             </RelativeLayout>
 
                             <RelativeLayout
+                                android:id="@+id/rl_temp_fahrenheit_wrapper"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:padding="@dimen/padding_x_small"
-                                android:id="@+id/rl_temp_farenheite_wrapper">
+                                android:padding="@dimen/padding_x_small">
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -487,12 +495,13 @@
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:id="@+id/tv_temp_farenheite"
+                                        android:id="@+id/tv_temp_fahrenheit"
                                         android:fontFamily="@font/google_sans_medium"
                                         android:textSize="@dimen/text_x_large"
                                         android:gravity="center"
                                         android:textColor="@color/white"
-                                        android:text="@string/deflaut_numbers">
+                                        tools:text="@string/default_numbers"
+                                        android:text="@{mainViewModel.tempFahrenheit}">
                                     </TextView>
 
                                     <TextView
@@ -520,5 +529,5 @@
         </RelativeLayout>
 
     </RelativeLayout>
-    
+
 </layout>

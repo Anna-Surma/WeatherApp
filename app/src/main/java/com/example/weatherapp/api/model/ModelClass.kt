@@ -1,7 +1,7 @@
-package com.example.weatherapp.POJO
+package com.example.weatherapp.model
 
 data class ModelClass(val weather:List<Weather>,
-                      val basic:Basic,
+                      val main:Main,
                       val wind:Wind,
                       val sys:Sys,
                       val id:Int,

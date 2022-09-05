@@ -1,6 +1,6 @@
-package com.example.weatherapp.Utilities
+package com.example.weatherapp.api
 
-import com.example.weatherapp.POJO.ModelClass
+import com.example.weatherapp.model.ModelClass
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

@@ -2,7 +2,7 @@
     <string name="app_name">WeatherApp</string>
     <string name="search_places">Search Places</string>
     <string name="demo_date">9 January, 2:41 pm</string>
-    <string name="deflaut_numbers">100</string>
+    <string name="default_numbers">100</string>
     <string name="pressure">Pressure</string>
     <string name="max_temp">Max Temp</string>
     <string name="humidity">Humidity</string>
@@ -17,4 +17,9 @@
     <string name="sunrise">Sunrise</string>
     <string name="sunset">Sunset</string>
     <string name="about_app">About app</string>
+    <string name="day_max_temp">Day %s°</string>
+    <string name="day_min_temp">Night %s°</string>
+    <string name="degrees">%s°</string>
+    <string name="feels_like">Feels like %s°</string>
+
 </resources>
