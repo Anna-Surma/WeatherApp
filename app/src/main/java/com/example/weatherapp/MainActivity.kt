@@ -38,12 +38,14 @@ class MainActivity : AppCompatActivity(){
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
 
+        binding.rlMainLayout.visibility = View.GONE
+
         getCurrentLocation()
 
         binding.mainViewModel = viewModel
         binding.lifecycleOwner = this
 
-        binding.etGetCityName.setOnEditorActionListener({_, actionId, _ ->
+        binding.etGetCityName.setOnEditorActionListener(){_, actionId, _ ->
             if(actionId== EditorInfo.IME_ACTION_SEARCH)
             {
                 viewModel.getCityWeather(binding.etGetCityName.text.toString(), Constants.API_KEY)
@@ -57,7 +59,7 @@ class MainActivity : AppCompatActivity(){
                 true
             }
             else false
-        })
+        }
 
         viewModel.weatherCurLoc.observe(this) {
             if (it != null) {
@@ -121,12 +123,14 @@ class MainActivity : AppCompatActivity(){
                             location.longitude.toString(), Constants.API_KEY)
                     }
                 }
-            } else {
+            }
+            else {
                 Toast.makeText(this, "Turn on location", Toast.LENGTH_SHORT).show()
                 val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
                 startActivity(intent)
             }
-        } else {
+        }
+        else {
             requestPermission()
         }
     }

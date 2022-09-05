@@ -7,5 +7,5 @@
     <dimen name="text_large">18sp</dimen>
     <dimen name="text_med">10sp</dimen>
     <dimen name="text_x_large">23sp</dimen>
-    <dimen name="test_super_large">85sp</dimen>
+    <dimen name="test_super_large">70sp</dimen>
 </resources>
