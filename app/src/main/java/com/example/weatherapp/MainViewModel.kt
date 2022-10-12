@@ -1,7 +1,5 @@
 package com.example.weatherapp
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,7 +14,7 @@ import java.time.Instant
 import java.time.ZoneId
 import java.util.*
 
-class MainViewModel: ViewModel(){
+class MainViewModel : ViewModel() {
 
     private val _pbLoading = MutableLiveData<Boolean>()
     val pbLoading: LiveData<Boolean> = _pbLoading
@@ -64,12 +62,12 @@ class MainViewModel: ViewModel(){
         _pbLoading.value = true
         ApiUtilities.getApiInterface()?.getCurrentWeatherData(latitude, longitude, API_KEY)
             ?.enqueue(object : Callback<ModelClass> {
-                @RequiresApi(Build.VERSION_CODES.O)
                 override fun onResponse(call: Call<ModelClass>, response: Response<ModelClass>) {
                     if (response.isSuccessful) {
                         _weatherCurLoc.value = response.body()
                     }
                 }
+
                 override fun onFailure(call: Call<ModelClass>, t: Throwable) {
                 }
             })
@@ -79,17 +77,16 @@ class MainViewModel: ViewModel(){
         // binding.pbLoading.visibility= View.VISIBLE
         ApiUtilities.getApiInterface()?.getCityWeatherData(cityName, API_KEY)
             ?.enqueue(object : Callback<ModelClass> {
-                @RequiresApi(Build.VERSION_CODES.O)
                 override fun onResponse(call: Call<ModelClass>, response: Response<ModelClass>) {
                     _weatherCurLoc.value = response.body()
                 }
+
                 override fun onFailure(call: Call<ModelClass>, t: Throwable) {
                 }
             })
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun timeStampToLocalDate(timeStamp: Long): String {
+    private fun timeStampToLocalDate(timeStamp: Long): String {
         val localTime = timeStamp.let {
             Instant.ofEpochSecond(it)
                 .atZone(ZoneId.systemDefault())
@@ -104,7 +101,7 @@ class MainViewModel: ViewModel(){
         return intTemp.toBigDecimal().setScale(1, RoundingMode.UP).toDouble()
     }
 
-    fun getCurrentDate(body: ModelClass?){
+    fun getCurrentDate(body: ModelClass?) {
         _currentDate.value = SimpleDateFormat("dd/MM/yyyy hh:mm").format(Date())
         _dayMaxTemp.value = kelvinToCelsius(body!!.main.temp_max).toString()
         _dayMinTemp.value = kelvinToCelsius(body.main.temp_min).toString()
@@ -120,7 +117,8 @@ class MainViewModel: ViewModel(){
         _humidity.value = body.main.humidity.toString() + "%"
         _windSpeed.value = body.wind.speed.toString() + "m/s"
 
-        _tempFahrenheit.value = ((kelvinToCelsius(body.main.temp)).times(1.8).plus(32).toInt()).toString()
+        _tempFahrenheit.value =
+            ((kelvinToCelsius(body.main.temp)).times(1.8).plus(32).toInt()).toString()
     }
 
 }

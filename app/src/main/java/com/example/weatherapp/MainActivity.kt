@@ -25,7 +25,7 @@ import com.example.weatherapp.model.ModelClass
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 
-class MainActivity : AppCompatActivity(){
+class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: MainViewModel
@@ -45,20 +45,18 @@ class MainActivity : AppCompatActivity(){
         binding.mainViewModel = viewModel
         binding.lifecycleOwner = this
 
-        binding.etGetCityName.setOnEditorActionListener(){_, actionId, _ ->
-            if(actionId== EditorInfo.IME_ACTION_SEARCH)
-            {
+        binding.etGetCityName.setOnEditorActionListener() { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 viewModel.getCityWeather(binding.etGetCityName.text.toString(), Constants.API_KEY)
-                val view=this.currentFocus
-                if(view!=null)
-                {
-                    val imm: InputMethodManager =getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-                    imm.hideSoftInputFromWindow(view.windowToken,0)
+                val view = this.currentFocus
+                if (view != null) {
+                    val imm: InputMethodManager =
+                        getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.hideSoftInputFromWindow(view.windowToken, 0)
                     binding.etGetCityName.clearFocus()
                 }
                 true
-            }
-            else false
+            } else false
         }
 
         viewModel.weatherCurLoc.observe(this) {
@@ -68,7 +66,7 @@ class MainActivity : AppCompatActivity(){
         }
         viewModel.pbLoading.observe(this) {
             if (it != null) {
-                if(it){
+                if (it) {
                     binding.pbLoading.visibility = View.VISIBLE
                 }
             }
@@ -76,10 +74,13 @@ class MainActivity : AppCompatActivity(){
     }
 
     private fun checkPermissions(): Boolean {
-        if (ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+        if (ActivityCompat.checkSelfPermission(
                 this,
-                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
         ) {
             return true
         }
@@ -97,8 +98,10 @@ class MainActivity : AppCompatActivity(){
     private fun requestPermission() {
         ActivityCompat.requestPermissions(
             this,
-            arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION),
+            arrayOf(
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ),
             PERMISSION_REQUEST_ACCESS_LOCATION
         )
     }
@@ -106,10 +109,13 @@ class MainActivity : AppCompatActivity(){
     private fun getCurrentLocation() {
         if (checkPermissions()) {
             if (isLocationEnabled()) {
-                if (ActivityCompat.checkSelfPermission(this,
-                        Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                if (ActivityCompat.checkSelfPermission(
                         this,
-                        Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                    ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+                    ) != PackageManager.PERMISSION_GRANTED
                 ) {
                     requestPermission()
                     return
@@ -119,18 +125,18 @@ class MainActivity : AppCompatActivity(){
                     if (location == null) {
                         Toast.makeText(this, "Null Received", Toast.LENGTH_SHORT).show()
                     } else {
-                        viewModel.fetchCurrentLocationWeather(location.latitude.toString(),
-                            location.longitude.toString(), Constants.API_KEY)
+                        viewModel.fetchCurrentLocationWeather(
+                            location.latitude.toString(),
+                            location.longitude.toString(), Constants.API_KEY
+                        )
                     }
                 }
-            }
-            else {
+            } else {
                 Toast.makeText(this, "Turn on location", Toast.LENGTH_SHORT).show()
                 val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
                 startActivity(intent)
             }
-        }
-        else {
+        } else {
             requestPermission()
         }
     }

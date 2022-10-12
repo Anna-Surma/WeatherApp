@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="mainViewModel"
             type="com.example.weatherapp.MainViewModel" />
@@ -20,8 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:elevation="2dp"
-            android:visibility="gone">
-        </ProgressBar>
+            android:visibility="gone"/>
 
         <RelativeLayout
             android:id="@+id/rl_main_layout"
@@ -60,8 +60,8 @@
                             android:inputType="text"
                             android:paddingStart="@dimen/padding_large"
                             android:paddingEnd="@dimen/padding_large"
-                            android:textColor="@color/black">
-                        </EditText>
+                            android:textColor="@color/black"
+                            android:importantForAutofill="no"/>
 
                     </androidx.cardview.widget.CardView>
 
@@ -84,14 +84,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"
-                        tools:src="@drawable/snow_bg">
-                    </ImageView>
+                        tools:src="@drawable/snow_bg"
+                        android:contentDescription="@string/backgroud"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/padding_large"
                         android:layout_marginStart="@dimen/padding_x_large"
+                        android:layout_marginTop="@dimen/padding_large"
                         android:orientation="vertical">
 
                         <TextView
@@ -99,10 +99,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/google_sans_medium"
+                            android:text="@{mainViewModel.currentDate}"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/text_large"
-                            android:text="@{mainViewModel.currentDate}">
-                        </TextView>
+                            android:textSize="@dimen/text_large"/>
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -116,11 +115,10 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="2"
                                 android:fontFamily="@font/google_sans_medium"
-                                android:textColor="@color/white"
-                                tools:text="@string/day"
                                 android:text="@{@string/day_max_temp(mainViewModel.dayMaxTemp)}"
-                                android:textSize="@dimen/text_large">
-                            </TextView>
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/text_large"
+                                tools:text="@string/day"/>
 
                             <TextView
                                 android:id="@+id/tv_day_min_temp"
@@ -128,11 +126,10 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:fontFamily="@font/google_sans_medium"
-                                android:textColor="@color/white"
-                                tools:text="@string/day"
                                 android:text="@{@string/day_min_temp(mainViewModel.dayMinTemp)}"
-                                android:textSize="@dimen/text_large">
-                            </TextView>
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/text_large"
+                                tools:text="@string/day"/>
 
                         </LinearLayout>
 
@@ -148,11 +145,10 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:fontFamily="@font/google_sans_medium"
-                                android:textColor="@color/white"
-                                tools:text="@string/main_temp"
                                 android:text="@{@string/degrees(mainViewModel.temp)}"
-                                android:textSize="@dimen/test_super_large">
-                            </TextView>
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/test_super_large"
+                                tools:text="@string/main_temp"/>
 
                             <ImageView
                                 android:id="@+id/iv_weather_icon"
@@ -160,8 +156,8 @@
                                 android:layout_height="100dp"
                                 android:layout_marginTop="@dimen/padding_large"
                                 android:layout_marginEnd="@dimen/padding_large"
-                                android:src="@drawable/clear">
-                            </ImageView>
+                                android:src="@drawable/clear"
+                                android:contentDescription="@string/weather_icon"/>
 
                         </LinearLayout>
 
@@ -177,11 +173,10 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:fontFamily="@font/google_sans_medium"
-                                android:textColor="@color/white"
-                                tools:text="@string/feels_alike"
                                 android:text="@{@string/feels_like(mainViewModel.feelsLike)}"
-                                android:textSize="@dimen/text_large">
-                            </TextView>
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/text_large"
+                                tools:text="@string/feels_alike"/>
 
                             <TextView
                                 android:id="@+id/tv_weather_type"
@@ -189,11 +184,10 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="3"
                                 android:fontFamily="@font/google_sans_medium"
-                                android:textColor="@color/white"
-                                tools:text="@string/weather_type"
                                 android:text="@{mainViewModel.weatherType}"
-                                android:textSize="@dimen/text_large">
-                            </TextView>
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/text_large"
+                                tools:text="@string/weather_type"/>
 
                         </LinearLayout>
 
@@ -211,8 +205,8 @@
                     android:layout_marginBottom="@dimen/padding_x_large"
                     android:elevation="@dimen/padding_x_small"
                     app:cardCornerRadius="@dimen/padding_large"
-                    app:cardMaxElevation="@dimen/padding_x_small"
-                    app:cardElevation="@dimen/padding_x_small">
+                    app:cardElevation="@dimen/padding_x_small"
+                    app:cardMaxElevation="@dimen/padding_x_small">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -224,8 +218,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@drawable/snow_bg"
-                            android:orientation="horizontal"
-                            android:baselineAligned="false">
+                            android:baselineAligned="false"
+                            android:orientation="horizontal">
 
                             <RelativeLayout
                                 android:id="@+id/rl_pressure_wrapper"
@@ -245,8 +239,8 @@
                                         android:layout_width="25dp"
                                         android:layout_height="25dp"
                                         android:layout_gravity="center_horizontal"
-                                        android:src="@drawable/pressure">
-                                    </ImageView>
+                                        android:src="@drawable/pressure"
+                                        android:contentDescription="@string/pressure"/>
 
                                     <TextView
                                         android:id="@+id/tv_pressure"
@@ -257,8 +251,7 @@
                                         android:text="@{mainViewModel.pressure}"
                                         android:textColor="@color/white"
                                         android:textSize="@dimen/text_large"
-                                        tools:text="@string/default_numbers">
-                                    </TextView>
+                                        tools:text="@string/default_numbers"/>
 
                                     <TextView
                                         android:layout_width="match_parent"
@@ -267,8 +260,7 @@
                                         android:gravity="center"
                                         android:text="@string/pressure"
                                         android:textColor="@color/white"
-                                        android:textSize="@dimen/text_med">
-                                    </TextView>
+                                        android:textSize="@dimen/text_med"/>
 
                                 </LinearLayout>
 
@@ -292,37 +284,36 @@
                                         android:layout_width="25dp"
                                         android:layout_height="25dp"
                                         android:layout_gravity="center_horizontal"
-                                        android:src="@drawable/humidity">
-                                    </ImageView>
+                                        android:src="@drawable/humidity"
+                                        android:contentDescription="@string/humidity"/>
 
                                     <TextView
                                         android:id="@+id/tv_humidity"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/google_sans_medium"
-                                        android:textSize="@dimen/text_large"
                                         android:gravity="center"
+                                        android:text="@{mainViewModel.humidity}"
                                         android:textColor="@color/white"
-                                        tools:text="@string/default_numbers"
-                                        android:text="@{mainViewModel.humidity}">
-                                    </TextView>
+                                        android:textSize="@dimen/text_large"
+                                        tools:text="@string/default_numbers"/>
 
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/google_sans_medium"
-                                        android:textSize="@dimen/text_med"
                                         android:gravity="center"
+                                        android:text="@string/humidity"
                                         android:textColor="@color/white"
-                                        android:text="@string/humidity">
-                                    </TextView>
+                                        android:textSize="@dimen/text_med"/>
 
                                 </LinearLayout>
 
                             </RelativeLayout>
 
                             <RelativeLayout
-                                android:id="@+id/rl_wind_speed_wrapper"                                android:layout_width="0dp"
+                                android:id="@+id/rl_wind_speed_wrapper"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:padding="@dimen/padding_x_small">
@@ -338,8 +329,8 @@
                                         android:layout_width="25dp"
                                         android:layout_height="25dp"
                                         android:layout_gravity="center_horizontal"
-                                        android:src="@drawable/wind_speed">
-                                    </ImageView>
+                                        android:src="@drawable/wind_speed"
+                                        android:contentDescription="@string/wind_speed"/>
 
                                     <TextView
                                         android:id="@+id/tv_wind_speed"
@@ -347,11 +338,10 @@
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/google_sans_medium"
                                         android:gravity="center"
-                                        tools:text="@string/default_numbers"
                                         android:text="@{mainViewModel.windSpeed}"
                                         android:textColor="@color/white"
-                                        android:textSize="@dimen/text_large">
-                                    </TextView>
+                                        android:textSize="@dimen/text_large"
+                                        tools:text="@string/default_numbers"/>
 
                                     <TextView
                                         android:layout_width="match_parent"
@@ -360,8 +350,7 @@
                                         android:gravity="center"
                                         android:text="@string/wind_speed"
                                         android:textColor="@color/white"
-                                        android:textSize="@dimen/text_med">
-                                    </TextView>
+                                        android:textSize="@dimen/text_med"/>
 
                                 </LinearLayout>
 
@@ -395,8 +384,8 @@
                                         android:layout_width="25dp"
                                         android:layout_height="25dp"
                                         android:layout_gravity="center_horizontal"
-                                        android:src="@drawable/sunrise">
-                                    </ImageView>
+                                        android:src="@drawable/sunrise"
+                                        android:contentDescription="@string/sunrise"/>
 
                                     <TextView
                                         android:id="@+id/tv_sunrise"
@@ -404,11 +393,10 @@
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/google_sans_medium"
                                         android:gravity="center"
-                                        tools:text="@string/default_numbers"
                                         android:text="@{mainViewModel.sunrise}"
                                         android:textColor="@color/white"
-                                        android:textSize="@dimen/text_large">
-                                    </TextView>
+                                        android:textSize="@dimen/text_large"
+                                        tools:text="@string/default_numbers"/>
 
                                     <TextView
                                         android:layout_width="match_parent"
@@ -417,8 +405,7 @@
                                         android:gravity="center"
                                         android:text="@string/sunrise"
                                         android:textColor="@color/white"
-                                        android:textSize="@dimen/text_med">
-                                    </TextView>
+                                        android:textSize="@dimen/text_med"/>
 
                                 </LinearLayout>
 
@@ -442,8 +429,8 @@
                                         android:layout_width="19dp"
                                         android:layout_height="25dp"
                                         android:layout_gravity="center_horizontal"
-                                        android:src="@drawable/sunset">
-                                    </ImageView>
+                                        android:src="@drawable/sunset"
+                                        android:contentDescription="@string/sunset"/>
 
                                     <TextView
                                         android:id="@+id/tv_sunset"
@@ -451,11 +438,10 @@
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/google_sans_medium"
                                         android:gravity="center"
-                                        tools:text="@string/default_numbers"
                                         android:text="@{mainViewModel.sunset}"
                                         android:textColor="@color/white"
-                                        android:textSize="@dimen/text_large">
-                                    </TextView>
+                                        android:textSize="@dimen/text_large"
+                                        tools:text="@string/default_numbers"/>
 
                                     <TextView
                                         android:layout_width="match_parent"
@@ -464,8 +450,7 @@
                                         android:gravity="center"
                                         android:text="@string/sunset"
                                         android:textColor="@color/white"
-                                        android:textSize="@dimen/text_med">
-                                    </TextView>
+                                        android:textSize="@dimen/text_med"/>
 
                                 </LinearLayout>
 
@@ -489,30 +474,28 @@
                                         android:layout_width="25dp"
                                         android:layout_height="25dp"
                                         android:layout_gravity="center_horizontal"
-                                        android:src="@drawable/temp">
-                                    </ImageView>
+                                        android:src="@drawable/temp"
+                                        android:contentDescription="@string/temperature_in_f"/>
 
                                     <TextView
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
                                         android:id="@+id/tv_temp_fahrenheit"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
                                         android:fontFamily="@font/google_sans_medium"
-                                        android:textSize="@dimen/text_large"
                                         android:gravity="center"
+                                        android:text="@{mainViewModel.tempFahrenheit}"
                                         android:textColor="@color/white"
-                                        tools:text="@string/default_numbers"
-                                        android:text="@{mainViewModel.tempFahrenheit}">
-                                    </TextView>
+                                        android:textSize="@dimen/text_large"
+                                        tools:text="@string/default_numbers"/>
 
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/google_sans_medium"
-                                        android:textSize="@dimen/text_med"
                                         android:gravity="center"
+                                        android:text="@string/temperature_in_f"
                                         android:textColor="@color/white"
-                                        android:text="@string/temperature_in_f">
-                                    </TextView>
+                                        android:textSize="@dimen/text_med"/>
 
                                 </LinearLayout>
 
