@@ -21,5 +21,7 @@
     <string name="day_min_temp">Night %s°</string>
     <string name="degrees">%s°</string>
     <string name="feels_like">Feels like %s°</string>
+    <string name="backgroud">Backgroud</string>
+    <string name="weather_icon">Weather icon</string>
 
 </resources>

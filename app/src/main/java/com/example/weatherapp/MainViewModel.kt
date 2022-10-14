@@ -1,20 +1,25 @@
 package com.example.weatherapp
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.weatherapp.api.ApiUtilities
+import androidx.lifecycle.viewModelScope
+import com.example.weatherapp.di.MainRepository
 import com.example.weatherapp.model.ModelClass
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import java.math.RoundingMode
 import java.text.SimpleDateFormat
 import java.time.Instant
 import java.time.ZoneId
 import java.util.*
+import javax.inject.Inject
 
-class MainViewModel : ViewModel() {
+@HiltViewModel
+class MainViewModel @Inject constructor(
+    private val mainRepository: MainRepository
+) : ViewModel() {
 
     private val _pbLoading = MutableLiveData<Boolean>()
     val pbLoading: LiveData<Boolean> = _pbLoading
@@ -58,33 +63,29 @@ class MainViewModel : ViewModel() {
     private val _tempFahrenheit = MutableLiveData<String>()
     val tempFahrenheit: LiveData<String> = _tempFahrenheit
 
-    fun fetchCurrentLocationWeather(latitude: String, longitude: String, API_KEY: String) {
-        _pbLoading.value = true
-        ApiUtilities.getApiInterface()?.getCurrentWeatherData(latitude, longitude, API_KEY)
-            ?.enqueue(object : Callback<ModelClass> {
-                override fun onResponse(call: Call<ModelClass>, response: Response<ModelClass>) {
-                    if (response.isSuccessful) {
-                        _weatherCurLoc.value = response.body()
-                    }
-                }
+    fun fetchCurrentLocationWeather(latitude: String, longitude: String, API_KEY: String) =
+        viewModelScope.launch {
+            Log.i("mainActivity", "PERRRMISION")
+            _pbLoading.value = true
+            val response =
+                mainRepository.getCurrentWeatherData(latitude, longitude, API_KEY)
+            if (response.isSuccessful) {
+                _weatherCurLoc.value = response.body()
+                Log.i("mainActivity", "1SUCCES")
+            }
+        }
 
-                override fun onFailure(call: Call<ModelClass>, t: Throwable) {
-                }
-            })
-    }
-
-    fun getCityWeather(cityName: String, API_KEY: String) {
-        // binding.pbLoading.visibility= View.VISIBLE
-        ApiUtilities.getApiInterface()?.getCityWeatherData(cityName, API_KEY)
-            ?.enqueue(object : Callback<ModelClass> {
-                override fun onResponse(call: Call<ModelClass>, response: Response<ModelClass>) {
-                    _weatherCurLoc.value = response.body()
-                }
-
-                override fun onFailure(call: Call<ModelClass>, t: Throwable) {
-                }
-            })
-    }
+    fun getCityWeather(cityName: String, API_KEY: String) =
+        viewModelScope.launch {
+            // binding.pbLoading.visibility= View.VISIBLE
+            Log.i("mainActivity", "getCity")
+            val response =
+                mainRepository.getCityWeatherData(cityName, API_KEY)
+            if (response.isSuccessful) {
+                Log.i("mainActivity", "2SUCCES")
+                _weatherCurLoc.value = response.body()
+            }
+        }
 
     private fun timeStampToLocalDate(timeStamp: Long): String {
         val localTime = timeStamp.let {

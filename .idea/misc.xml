@@ -3,7 +3,17 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/asus/WeatherApp/app/src/main/res/layout/activity_main.xml" value="0.24010416666666667" />
+        <entry key="..\:/Users/asus/WeatherApp/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1385" />
+        <entry key="..\:/Users/asus/WeatherApp/app/src/main/res/drawable/clear_bg.xml" value="0.1" />
+        <entry key="..\:/Users/asus/WeatherApp/app/src/main/res/drawable/clouds_bg.xml" value="0.1" />
+        <entry key="..\:/Users/asus/WeatherApp/app/src/main/res/drawable/drizzle_bg.xml" value="0.1" />
+        <entry key="..\:/Users/asus/WeatherApp/app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.1385" />
+        <entry key="..\:/Users/asus/WeatherApp/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
+        <entry key="..\:/Users/asus/WeatherApp/app/src/main/res/drawable/mist_bg.xml" value="0.1385" />
+        <entry key="..\:/Users/asus/WeatherApp/app/src/main/res/drawable/rainy_bg.xml" value="0.1385" />
+        <entry key="..\:/Users/asus/WeatherApp/app/src/main/res/drawable/snow_bg.xml" value="0.1385" />
+        <entry key="..\:/Users/asus/WeatherApp/app/src/main/res/drawable/thunderstrom_bg.xml" value="0.1385" />
+        <entry key="..\:/Users/asus/WeatherApp/app/src/main/res/layout/activity_main.xml" value="0.19675925925925927" />
       </map>
     </option>
   </component>

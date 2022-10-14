@@ -8,6 +8,8 @@ import android.location.Location
 import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Parcel
+import android.os.Parcelable
 import android.provider.Settings
 import android.view.View
 import android.view.WindowManager
@@ -24,12 +26,18 @@ import com.example.weatherapp.databinding.ActivityMainBinding
 import com.example.weatherapp.model.ModelClass
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import dagger.hilt.android.AndroidEntryPoint
 
-class MainActivity : AppCompatActivity() {
+@AndroidEntryPoint
+class MainActivity() : AppCompatActivity(), Parcelable {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: MainViewModel
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+
+    constructor(parcel: Parcel) : this() {
+
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +57,7 @@ class MainActivity : AppCompatActivity() {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 viewModel.getCityWeather(binding.etGetCityName.text.toString(), Constants.API_KEY)
                 val view = this.currentFocus
+
                 if (view != null) {
                     val imm: InputMethodManager =
                         getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
@@ -347,5 +356,23 @@ class MainActivity : AppCompatActivity() {
         viewModel.getCurrentDate(body)
         binding.etGetCityName.setText(body!!.name)
         updateUI(body.weather[0].id)
+    }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<MainActivity> {
+        override fun createFromParcel(parcel: Parcel): MainActivity {
+            return MainActivity(parcel)
+        }
+
+        override fun newArray(size: Int): Array<MainActivity?> {
+            return arrayOfNulls(size)
+        }
     }
 }
