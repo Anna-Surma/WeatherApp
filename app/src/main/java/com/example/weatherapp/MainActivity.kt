@@ -1,15 +1,11 @@
 package com.example.weatherapp
 
 import android.Manifest
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
-import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Parcel
-import android.os.Parcelable
 import android.provider.Settings
 import android.view.View
 import android.view.WindowManager
@@ -23,6 +19,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.weatherapp.api.Constants
 import com.example.weatherapp.api.Constants.PERMISSION_REQUEST_ACCESS_LOCATION
+import com.example.weatherapp.api.model.TrackingUtility.checkPermissions
+import com.example.weatherapp.api.model.TrackingUtility.isLocationEnabled
+import com.example.weatherapp.api.model.TrackingUtility.requestPermission
 import com.example.weatherapp.databinding.ActivityMainBinding
 import com.example.weatherapp.model.ModelClass
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -31,13 +30,11 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
-class MainActivity() : AppCompatActivity(), Parcelable {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: MainViewModel
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
-
-    constructor(parcel: Parcel) : this()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,42 +81,9 @@ class MainActivity() : AppCompatActivity(), Parcelable {
         }
     }
 
-    private fun checkPermissions(): Boolean {
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            return true
-        }
-        return false
-    }
-
-    private fun isLocationEnabled(): Boolean {
-        val locationManager: LocationManager =
-            getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
-            LocationManager.NETWORK_PROVIDER
-        )
-    }
-
-    private fun requestPermission() {
-        ActivityCompat.requestPermissions(
-            this,
-            arrayOf(
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ),
-            PERMISSION_REQUEST_ACCESS_LOCATION
-        )
-    }
-
     private fun getCurrentLocation() {
-        if (checkPermissions()) {
-            if (isLocationEnabled()) {
+        if (checkPermissions(this)) {
+            if (isLocationEnabled(this)) {
                 if (ActivityCompat.checkSelfPermission(
                         this,
                         Manifest.permission.ACCESS_FINE_LOCATION
@@ -128,7 +92,7 @@ class MainActivity() : AppCompatActivity(), Parcelable {
                         Manifest.permission.ACCESS_COARSE_LOCATION
                     ) != PackageManager.PERMISSION_GRANTED
                 ) {
-                    requestPermission()
+                    requestPermission(this)
                     return
                 }
                 fusedLocationProviderClient.lastLocation.addOnCompleteListener(this) { task ->
@@ -148,7 +112,7 @@ class MainActivity() : AppCompatActivity(), Parcelable {
                 startActivity(intent)
             }
         } else {
-            requestPermission()
+            requestPermission(this)
         }
     }
 
@@ -358,23 +322,5 @@ class MainActivity() : AppCompatActivity(), Parcelable {
         viewModel.getCurrentDate(body)
         binding.etGetCityName.setText(body!!.name)
         updateUI(body.weather[0].id)
-    }
-
-    override fun writeToParcel(parcel: Parcel, flags: Int) {
-
-    }
-
-    override fun describeContents(): Int {
-        return 0
-    }
-
-    companion object CREATOR : Parcelable.Creator<MainActivity> {
-        override fun createFromParcel(parcel: Parcel): MainActivity {
-            return MainActivity(parcel)
-        }
-
-        override fun newArray(size: Int): Array<MainActivity?> {
-            return arrayOfNulls(size)
-        }
     }
 }
