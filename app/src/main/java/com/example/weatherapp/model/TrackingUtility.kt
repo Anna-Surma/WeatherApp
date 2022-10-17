@@ -1,4 +1,4 @@
-package com.example.weatherapp.api.model
+package com.example.weatherapp.model
 
 import android.Manifest
 import android.app.Activity

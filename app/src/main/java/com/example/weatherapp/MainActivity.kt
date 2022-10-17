@@ -19,9 +19,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.weatherapp.api.Constants
 import com.example.weatherapp.api.Constants.PERMISSION_REQUEST_ACCESS_LOCATION
-import com.example.weatherapp.api.model.TrackingUtility.checkPermissions
-import com.example.weatherapp.api.model.TrackingUtility.isLocationEnabled
-import com.example.weatherapp.api.model.TrackingUtility.requestPermission
+import com.example.weatherapp.model.TrackingUtility.checkPermissions
+import com.example.weatherapp.model.TrackingUtility.isLocationEnabled
+import com.example.weatherapp.model.TrackingUtility.requestPermission
 import com.example.weatherapp.databinding.ActivityMainBinding
 import com.example.weatherapp.model.ModelClass
 import com.google.android.gms.location.FusedLocationProviderClient
