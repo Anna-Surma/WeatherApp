@@ -20,6 +20,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.example.weatherapp.api.Constants
 import com.example.weatherapp.api.Constants.PERMISSION_REQUEST_ACCESS_LOCATION
 import com.example.weatherapp.databinding.ActivityMainBinding
@@ -27,6 +28,7 @@ import com.example.weatherapp.model.ModelClass
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class MainActivity() : AppCompatActivity(), Parcelable {
@@ -35,9 +37,7 @@ class MainActivity() : AppCompatActivity(), Parcelable {
     private lateinit var viewModel: MainViewModel
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
-    constructor(parcel: Parcel) : this() {
-
-    }
+    constructor(parcel: Parcel) : this()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,7 +53,7 @@ class MainActivity() : AppCompatActivity(), Parcelable {
         binding.mainViewModel = viewModel
         binding.lifecycleOwner = this
 
-        binding.etGetCityName.setOnEditorActionListener() { _, actionId, _ ->
+        binding.etGetCityName.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 viewModel.getCityWeather(binding.etGetCityName.text.toString(), Constants.API_KEY)
                 val view = this.currentFocus
@@ -68,15 +68,17 @@ class MainActivity() : AppCompatActivity(), Parcelable {
             } else false
         }
 
-        viewModel.weatherCurLoc.observe(this) {
-            if (it != null) {
-                setDataOnViews(it)
+        lifecycleScope.launchWhenCreated {
+            viewModel.weatherCurLoc.collectLatest{
+                if (it != null) {
+                    setDataOnViews(it)
+                }
             }
-        }
-        viewModel.pbLoading.observe(this) {
-            if (it != null) {
-                if (it) {
-                    binding.pbLoading.visibility = View.VISIBLE
+            viewModel.pbLoading.collectLatest {
+                if (it != null) {
+                    if (it) {
+                        binding.pbLoading.visibility = View.VISIBLE
+                    }
                 }
             }
         }

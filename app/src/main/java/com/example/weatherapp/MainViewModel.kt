@@ -1,13 +1,12 @@
 package com.example.weatherapp
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.weatherapp.di.MainRepository
 import com.example.weatherapp.model.ModelClass
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.math.RoundingMode
 import java.text.SimpleDateFormat
@@ -21,68 +20,64 @@ class MainViewModel @Inject constructor(
     private val mainRepository: MainRepository
 ) : ViewModel() {
 
-    private val _pbLoading = MutableLiveData<Boolean>()
-    val pbLoading: LiveData<Boolean> = _pbLoading
+    private val _pbLoading = MutableStateFlow<Boolean?>(null)
+    val pbLoading = _pbLoading.asStateFlow()
 
-    private val _weatherCurLoc = MutableLiveData<ModelClass>()
-    val weatherCurLoc: LiveData<ModelClass> = _weatherCurLoc
+    private val _weatherCurLoc = MutableStateFlow<ModelClass?>(null)
+    val weatherCurLoc = _weatherCurLoc.asStateFlow()
 
-    private val _currentDate = MutableLiveData<String>()
-    val currentDate: LiveData<String> = _currentDate
+    private val _currentDate = MutableStateFlow<String?>(null)
+    val currentDate = _currentDate.asStateFlow()
 
-    private val _dayMaxTemp = MutableLiveData<String>()
-    val dayMaxTemp: LiveData<String> = _dayMaxTemp
+    private val _dayMaxTemp = MutableStateFlow<String?>(null)
+    val dayMaxTemp = _dayMaxTemp.asStateFlow()
 
-    private val _dayMinTemp = MutableLiveData<String>()
-    val dayMinTemp: LiveData<String> = _dayMinTemp
+    private val _dayMinTemp = MutableStateFlow<String?>(null)
+    val dayMinTemp = _dayMinTemp.asStateFlow()
 
-    private val _temp = MutableLiveData<String>()
-    val temp: LiveData<String> = _temp
+    private val _temp = MutableStateFlow<String?>(null)
+    val temp = _temp.asStateFlow()
 
-    private val _feelsLike = MutableLiveData<String>()
-    val feelsLike: LiveData<String> = _feelsLike
+    private val _feelsLike = MutableStateFlow<String?>(null)
+    val feelsLike = _feelsLike.asStateFlow()
 
-    private val _weatherType = MutableLiveData<String>()
-    val weatherType: LiveData<String> = _weatherType
+    private val _weatherType = MutableStateFlow<String?>(null)
+    val weatherType = _weatherType.asStateFlow()
 
-    private val _sunrise = MutableLiveData<String>()
-    val sunrise: LiveData<String> = _sunrise
+    private val _sunrise = MutableStateFlow<String?>(null)
+    val sunrise = _sunrise.asStateFlow()
 
-    private val _sunset = MutableLiveData<String>()
-    val sunset: LiveData<String> = _sunset
+    private val _sunset = MutableStateFlow<String?>(null)
+    val sunset = _sunset.asStateFlow()
 
-    private val _pressure = MutableLiveData<String>()
-    val pressure: LiveData<String> = _pressure
+    private val _pressure = MutableStateFlow<String?>(null)
+    val pressure = _pressure.asStateFlow()
 
-    private val _humidity = MutableLiveData<String>()
-    val humidity: LiveData<String> = _humidity
+    private val _humidity = MutableStateFlow<String?>(null)
+    val humidity = _humidity.asStateFlow()
 
-    private val _windSpeed = MutableLiveData<String>()
-    val windSpeed: LiveData<String> = _windSpeed
+    private val _windSpeed = MutableStateFlow<String?>(null)
+    val windSpeed = _windSpeed.asStateFlow()
 
-    private val _tempFahrenheit = MutableLiveData<String>()
-    val tempFahrenheit: LiveData<String> = _tempFahrenheit
+    private val _tempFahrenheit = MutableStateFlow<String?>(null)
+    val tempFahrenheit = _tempFahrenheit.asStateFlow()
 
     fun fetchCurrentLocationWeather(latitude: String, longitude: String, API_KEY: String) =
         viewModelScope.launch {
-            Log.i("mainActivity", "PERRRMISION")
             _pbLoading.value = true
             val response =
                 mainRepository.getCurrentWeatherData(latitude, longitude, API_KEY)
             if (response.isSuccessful) {
                 _weatherCurLoc.value = response.body()
-                Log.i("mainActivity", "1SUCCES")
             }
         }
 
     fun getCityWeather(cityName: String, API_KEY: String) =
         viewModelScope.launch {
             // binding.pbLoading.visibility= View.VISIBLE
-            Log.i("mainActivity", "getCity")
             val response =
                 mainRepository.getCityWeatherData(cityName, API_KEY)
             if (response.isSuccessful) {
-                Log.i("mainActivity", "2SUCCES")
                 _weatherCurLoc.value = response.body()
             }
         }
