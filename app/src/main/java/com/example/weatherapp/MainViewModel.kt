@@ -2,6 +2,7 @@ package com.example.weatherapp
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.weatherapp.api.Constants
 import com.example.weatherapp.di.MainRepository
 import com.example.weatherapp.model.ModelClass
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -93,7 +94,7 @@ class MainViewModel @Inject constructor(
 
     private fun kelvinToCelsius(temp: Double): Double {
         var intTemp = temp
-        intTemp = intTemp.minus(273)
+        intTemp = intTemp.minus(Constants.KELVIN_SCALE)
         return intTemp.toBigDecimal().setScale(1, RoundingMode.UP).toDouble()
     }
 
